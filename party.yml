@@ -1,0 +1,117 @@
+package studio.spark.duels.queue;
+
+import org.bukkit.entity.Player;
+import studio.spark.duels.SparkDuels;
+import studio.spark.duels.model.Mode;
+import studio.spark.duels.util.Ctx;
+
+import java.util.*;
+
+public class QueueManager {
+
+    private final SparkDuels plugin;
+    private final Map<String, LinkedList<UUID>> queues = new HashMap<>();
+    private final Map<UUID, String> playerMode = new HashMap<>();   // clean mode id
+    private final Map<UUID, String> playerPool = new HashMap<>();   // pool key (mode + :r/:u)
+    private final Map<UUID, Boolean> rankedMap = new HashMap<>();
+    private final Map<UUID, Long> joinTime = new HashMap<>();
+
+    public QueueManager(SparkDuels plugin) {
+        this.plugin = plugin;
+    }
+
+    public boolean isQueued(Player p) { return playerPool.containsKey(p.getUniqueId()); }
+    public boolean isRanked(Player p) { return rankedMap.getOrDefault(p.getUniqueId(), false); }
+
+    public void join(Player p, String modeId) { join(p, modeId, true); }
+
+    public void join(Player p, String modeId, boolean ranked) {
+        if (plugin.matches().isInMatch(p)) {
+            plugin.msg().send(p, "duel.already-in-match");
+            return;
+        }
+        Mode mode = plugin.modes().get(modeId);
+        if (mode == null || !mode.duel()) {
+            plugin.msg().send(p, "queue.invalid-mode", Ctx.of().put("duel_mode", modeId));
+            return;
+        }
+        leaveSilent(p);
+
+        String pool = mode.id().toLowerCase(Locale.ROOT) + (ranked ? ":r" : ":u");
+        LinkedList<UUID> q = queues.computeIfAbsent(pool, k -> new LinkedList<>());
+
+        // try to pair with a waiting, valid opponent
+        while (!q.isEmpty()) {
+            UUID otherId = q.peekFirst();
+            Player other = plugin.getServer().getPlayer(otherId);
+            if (other != null && other.isOnline() && !plugin.matches().isInMatch(other)
+                    && !otherId.equals(p.getUniqueId())) {
+                q.pollFirst();
+                clear(otherId);
+                plugin.matches().start(other, p, mode, ranked);
+                return;
+            }
+            q.pollFirst();
+            clear(otherId);
+        }
+
+        q.addLast(p.getUniqueId());
+        playerMode.put(p.getUniqueId(), mode.id().toLowerCase(Locale.ROOT));
+        playerPool.put(p.getUniqueId(), pool);
+        rankedMap.put(p.getUniqueId(), ranked);
+        joinTime.put(p.getUniqueId(), System.currentTimeMillis());
+        plugin.msg().send(p, "queue.joined", Ctx.of().put("queue_mode",
+                (ranked ? "\u2b50 " : "") + mode.display()));
+        plugin.sounds().play(p, "queue-join");
+        if (plugin.lobbyItems() != null) plugin.lobbyItems().give(p);
+    }
+
+    public void leave(Player p, boolean announce) {
+        if (!isQueued(p)) {
+            if (announce) plugin.msg().send(p, "queue.not-queued");
+            return;
+        }
+        clear(p.getUniqueId());
+        if (announce) plugin.msg().send(p, "queue.left");
+        if (plugin.lobbyItems() != null) plugin.lobbyItems().give(p);
+    }
+
+    public void leaveSilent(Player p) { clear(p.getUniqueId()); }
+
+    private void clear(UUID id) {
+        playerMode.remove(id);
+        rankedMap.remove(id);
+        joinTime.remove(id);
+        String pool = playerPool.remove(id);
+        if (pool != null) {
+            LinkedList<UUID> q = queues.get(pool);
+            if (q != null) q.remove(id);
+        }
+    }
+
+    // ---- placeholders ----
+    public Mode modeOf(Player p) {
+        String id = playerMode.get(p.getUniqueId());
+        return id == null ? null : plugin.modes().get(id);
+    }
+
+    public int positionOf(Player p) {
+        String pool = playerPool.get(p.getUniqueId());
+        if (pool == null) return 0;
+        LinkedList<UUID> q = queues.get(pool);
+        return q == null ? 0 : q.indexOf(p.getUniqueId()) + 1;
+    }
+
+    public int playersIn(Player p) {
+        String pool = playerPool.get(p.getUniqueId());
+        if (pool == null) return 0;
+        LinkedList<UUID> q = queues.get(pool);
+        return q == null ? 0 : q.size();
+    }
+
+    public String waitTime(Player p) {
+        Long t = joinTime.get(p.getUniqueId());
+        if (t == null) return "0s";
+        return ((System.currentTimeMillis() - t) / 1000L) + "s";
+    }
+}
