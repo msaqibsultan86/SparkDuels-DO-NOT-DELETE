@@ -1,0 +1,74 @@
+# ============================================================
+#   SparkDuels  -  scoreboards.yml
+#   One board per state. MiniMessage + placeholders.
+#   Set enabled: false to hide a board.
+# ============================================================
+
+lobby:
+  enabled: true
+  title: "<gradient:#3CFF7E:#11A65B><bold>⚔ ꜱᴘᴀʀᴋᴅᴜᴇʟꜱ</bold></gradient>"
+  lines:
+    - "<dark_gray>▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪"
+    - "<gray>ᴘʟᴀʏᴇʀ: <white>%player%"
+    - "<gray>ᴏɴʟɪɴᴇ: <white>%online%/%max_players%"
+    - "<gray>ᴘɪɴɢ: <white>%ping%ms"
+    - ""
+    - "<gray>ᴡɪɴs: <#3CFF7E>%wins%"
+    - "<gray>ʟᴏssᴇs: <red>%losses%"
+    - "<gray>ᴋᴅʀ: <white>%kdr%"
+    - "<gray>ʀᴀɴᴋ: <#FFD23C>%rank%"
+    - ""
+    - "<dark_gray>ᴅɪsᴄᴏʀᴅ: <#3CFF7E>%discord_link%"
+    - "<dark_gray>▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪"
+
+queue:
+  enabled: true
+  title: "<gradient:#3CFF7E:#11A65B><bold>⚔ ǫᴜᴇᴜᴇ</bold></gradient>"
+  lines:
+    - "<dark_gray>▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪"
+    - "<gray>ᴍᴏᴅᴇ: <white>%queue_mode%"
+    - "<gray>ᴋɪᴛ: <white>%queue_kit%"
+    - "<gray>ᴘᴏsɪᴛɪᴏɴ: <white>%queue_position%"
+    - "<gray>ᴡᴀɪᴛ: <white>%queue_wait_time%"
+    - "<gray>ᴘʟᴀʏᴇʀs: <white>%queue_players%"
+    - "<dark_gray>▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪"
+
+duel:
+  enabled: true
+  title: "<gradient:#3CFF7E:#11A65B><bold>⚔ ᴅᴜᴇʟ</bold></gradient>"
+  lines:
+    - "<dark_gray>▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪"
+    - "<gray>ᴍᴏᴅᴇ: <white>%duel_mode%"
+    - "<gray>ᴀʀᴇɴᴀ: <white>%duel_arena%"
+    - "<gray>ᴅᴜʀᴀᴛɪᴏɴ: <white>%duel_duration%"
+    - ""
+    - "<gray>ʏᴏᴜ: <#3CFF7E>❤ %duel_health%"
+    - "<gray>%duel_opponent%: <red>❤ %duel_opponent_health%"
+    - "<dark_gray>▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪"
+
+ffa:
+  enabled: true
+  title: "<gradient:#3CFF7E:#11A65B><bold>⚔ ғғᴀ</bold></gradient>"
+  lines:
+    - "<dark_gray>▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪"
+    - "<gray>ᴍᴏᴅᴇ: <white>%ffa_mode%"
+    - "<gray>ᴀʀᴇɴᴀ: <white>%ffa_arena%"
+    - "<gray>ᴘʟᴀʏᴇʀs: <white>%ffa_players%"
+    - ""
+    - "<gray>ᴋɪʟʟs: <#3CFF7E>%ffa_kills%"
+    - "<gray>ᴅᴇᴀᴛʜs: <red>%ffa_deaths%"
+    - "<gray>sᴛʀᴇᴀᴋ: <#FFD23C>%ffa_streak%"
+    - "<gray>ʙᴇsᴛ: <white>%ffa_best_streak%"
+    - "<gray>ᴋᴅʀ: <white>%ffa_kdr%"
+    - "<dark_gray>▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪"
+
+party:
+  enabled: true
+  title: "<gradient:#3CFF7E:#11A65B><bold>👥 ᴘᴀʀᴛʏ</bold></gradient>"
+  lines:
+    - "<dark_gray>▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪"
+    - "<gray>ʟᴇᴀᴅᴇʀ: <white>%party_leader%"
+    - "<gray>ᴍᴇᴍʙᴇʀs: <white>%party_size%/%party_max_size%"
+    - "<gray>sᴛᴀᴛᴜs: <white>%party_status%"
+    - "<gray>ᴍᴏᴅᴇ: <white>%party_mode%"
+    - "<dark_gray>▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪ ▪"

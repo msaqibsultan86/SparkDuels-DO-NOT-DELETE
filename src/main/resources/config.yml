@@ -1,0 +1,100 @@
+# ============================================================
+#   SparkDuels  -  by Spark Studios
+#   Theme: green gradient | clean small-caps | emoji
+#   All text lives in messages.yml & scoreboards.yml
+# ============================================================
+
+# Shown via the %discord_link% placeholder (scoreboards, messages).
+discord-link: "discord.gg/sparkstudios"
+
+settings:
+  # MiniMessage is used everywhere. Gradients work on Paper.
+  use-gradients: true
+  # Auto-give the default super-OP kits on first start.
+  generate-default-kits: true
+  # Show scoreboards (toggle per state in scoreboards.yml too)
+  scoreboards-enabled: true
+  # Update scoreboard/actionbar every N ticks
+  scoreboard-update-ticks: 10
+
+lobby:
+  # The protected lobby region is a square centred on /setlobby,
+  # covering full world height. Spec asks for 1500 x 1500.
+  protection-size: 1500
+  protect:
+    pvp: true
+    block-break: true
+    block-place: true
+    damage: true
+    explosions: true
+    hunger: true
+    item-drop: true
+
+match:
+  countdown-seconds: 5
+  end-delay-seconds: 3
+  # Strike lightning (visual only) on the loser when a duel ends.
+  lightning-on-loss: true
+  # Logging out during a live duel / FFA counts as a loss/death.
+  combat-log-protection: true
+  # Heal & clear effects at the start of every round.
+  reset-on-start: true
+
+duel:
+  # Seconds before a /duel request expires.
+  request-expiry: 30
+  # Block sending a new request to the same player within this many seconds.
+  request-cooldown: 3
+
+queue:
+  # If true, queue pairs strictly FIFO. If false, first available.
+  fifo: true
+
+ffa:
+  # Minimum spawn points an FFA arena needs before it appears in /ffa.
+  min-spawns: 3
+  # Seconds of spawn protection after (re)spawning in FFA.
+  spawn-protection: 2
+  # Coins awarded per FFA kill.
+  coins-per-kill: 5
+
+# Arena duplication (/spduplicate + /sparena paste).
+arena:
+  # Safety cap on how many blocks a single copy/paste may move.
+  max-clipboard-volume: 250000
+
+party:
+  max-size: 8
+  # Allow party members to /party chat
+  party-chat: true
+
+stats:
+  starting-elo: 1000
+  k-factor: 32
+  # Coins awarded per duel win / per FFA kill.
+  coins-per-win: 10
+  coins-per-ffa-kill: 2
+
+# ------------------------------------------------------------
+#  SOUNDS  -  set 'enabled: false' to mute a group.
+#  Sound names = Bukkit Sound enum (1.21).
+# ------------------------------------------------------------
+sounds:
+  enabled: true
+  gui-open:        { sound: BLOCK_NOTE_BLOCK_HAT,        volume: 0.7, pitch: 1.4 }
+  gui-click:       { sound: UI_BUTTON_CLICK,             volume: 0.7, pitch: 1.2 }
+  duel-request:    { sound: BLOCK_NOTE_BLOCK_PLING,      volume: 1.0, pitch: 1.5 }
+  duel-accept:     { sound: ENTITY_PLAYER_LEVELUP,       volume: 0.8, pitch: 1.6 }
+  duel-deny:       { sound: ENTITY_VILLAGER_NO,          volume: 0.8, pitch: 1.0 }
+  queue-join:      { sound: BLOCK_NOTE_BLOCK_HARP,       volume: 0.8, pitch: 1.2 }
+  match-found:     { sound: ENTITY_EXPERIENCE_ORB_PICKUP,volume: 1.0, pitch: 1.5 }
+  countdown:       { sound: BLOCK_NOTE_BLOCK_PLING,      volume: 1.0, pitch: 1.0 }
+  fight:           { sound: ENTITY_ENDER_DRAGON_GROWL,   volume: 0.6, pitch: 1.4 }
+  win:             { sound: UI_TOAST_CHALLENGE_COMPLETE, volume: 1.0, pitch: 1.0 }
+  loss:            { sound: ENTITY_VILLAGER_DEATH,       volume: 0.8, pitch: 1.0 }
+  ffa-join:        { sound: BLOCK_NOTE_BLOCK_BELL,       volume: 0.8, pitch: 1.2 }
+  ffa-death:       { sound: ENTITY_PLAYER_HURT,          volume: 1.0, pitch: 1.0 }
+  party-invite:    { sound: BLOCK_NOTE_BLOCK_CHIME,      volume: 0.9, pitch: 1.3 }
+  success:         { sound: ENTITY_EXPERIENCE_ORB_PICKUP,volume: 0.7, pitch: 1.4 }
+  error:           { sound: ENTITY_VILLAGER_NO,          volume: 0.8, pitch: 1.0 }
+  reload:          { sound: BLOCK_BEACON_ACTIVATE,       volume: 0.7, pitch: 1.5 }

@@ -1,0 +1,111 @@
+name: SparkDuels
+version: ${project.version}
+main: studio.spark.duels.SparkDuels
+api-version: '1.21'
+authors: [Spark Studios]
+description: Premium duels, FFA, party, queue, kit, arena, scoreboard and stats plugin.
+website: https://modrinth.com/user/mrzyvex
+softdepend: [PlaceholderAPI]
+
+commands:
+  # ---- player ----
+  duel:
+    description: Duel menu / requests (accept, deny, leave, top)
+    usage: /duel <player|accept|deny|leave|top> [player]
+    permission: sparkduels.use
+  queue:
+    description: Join or leave a duel queue
+    usage: /queue <mode|leave>
+    permission: sparkduels.use
+  stats:
+    description: View your duel & FFA stats
+    permission: sparkduels.use
+  ffa:
+    description: FFA menu / join / leave / stats / top
+    usage: /ffa <join|leave|stats|top> [mode]
+    permission: sparkduels.ffa
+  party:
+    description: Party system
+    usage: /party <create|invite|accept|deny|leave|disband|kick|list|chat|duel|ffa|menu> [args]
+    permission: sparkduels.party
+  # ---- kit ----
+  kit:
+    description: Kit management
+    usage: /kit <create|delete|list|preview|give> [args]
+    permission: sparkduels.kit
+  modekit:
+    description: Link a kit to a duel mode
+    usage: /modekit <mode> <kit>
+    permission: sparkduels.kit
+  kiteditor:
+    description: Open the kit editor GUI
+    permission: sparkduels.kit
+  # ---- arena (duel) ----
+  setlobby:
+    description: Set the lobby spawn & protected region
+    permission: sparkduels.admin
+  arena:
+    description: Duel arena management
+    usage: /arena <create|list|delete|enable|disable> [name]
+    permission: sparkduels.arena
+  spos1:
+    description: Set duel arena player-1 spawn
+    permission: sparkduels.arena
+  spos2:
+    description: Set duel arena player-2 spawn
+    permission: sparkduels.arena
+  scorner1:
+    description: Set duel arena corner 1
+    permission: sparkduels.arena
+  scorner2:
+    description: Set duel arena corner 2 (completes setup)
+    permission: sparkduels.arena
+  spduplicate:
+    description: Copy a duel arena region
+    usage: /spduplicate <arena>
+    permission: sparkduels.arena
+  sparena:
+    description: Paste a copied arena
+    usage: /sparena paste <newName>
+    permission: sparkduels.arena
+  # ---- ffa arena ----
+  ffarena:
+    description: FFA arena management
+    usage: /ffarena <create|addspawn|set|setkit|list|enable|disable|delete> [args]
+    permission: sparkduels.ffarena
+  # ---- plugin ----
+  sparkduels:
+    description: SparkDuels admin (reload, info, help)
+    usage: /sparkduels <reload|info|help>
+    aliases: [sd, duels]
+    permission: sparkduels.use
+
+permissions:
+  sparkduels.use:
+    description: Basic SparkDuels commands
+    default: true
+  sparkduels.party:
+    description: Party commands
+    default: true
+  sparkduels.ffa:
+    description: FFA commands
+    default: true
+  sparkduels.admin:
+    description: All admin commands
+    default: op
+    children:
+      sparkduels.reload: true
+      sparkduels.info: true
+      sparkduels.arena: true
+      sparkduels.ffarena: true
+      sparkduels.kit: true
+  sparkduels.reload:
+    default: op
+  sparkduels.info:
+    default: op
+  sparkduels.arena:
+    default: op
+  sparkduels.ffarena:
+    default: op
+  sparkduels.kit:
+    default: op

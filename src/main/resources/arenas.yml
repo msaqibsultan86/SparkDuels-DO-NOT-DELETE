@@ -1,0 +1,16 @@
+# ============================================================
+#   SparkDuels  -  arenas.yml
+#   Duel arenas. Built in-game with:
+#     /arena create <name> -> /spos1 -> /spos2 -> /scorner1 -> /scorner2
+#   Stored automatically. Example shape:
+#
+#   arenas:
+#     classic1:
+#       world: world
+#       enabled: true
+#       spawn1: { x: 0.5, y: 65.0, z: 0.5, yaw: 0.0, pitch: 0.0 }
+#       spawn2: { x: 20.5, y: 65.0, z: 0.5, yaw: 180.0, pitch: 0.0 }
+#       corner1: { x: -10, y: 0, z: -10 }
+#       corner2: { x: 30, y: 255, z: 30 }
+# ============================================================
+arenas: {}

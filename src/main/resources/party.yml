@@ -1,0 +1,10 @@
+# ============================================================
+#   SparkDuels  -  party.yml
+# ============================================================
+settings:
+  max-size: 8
+  allow-party-chat: true
+  # Allow a party to challenge another party to a duel
+  allow-party-duel: true
+  # Allow a private party-only FFA
+  allow-party-ffa: true

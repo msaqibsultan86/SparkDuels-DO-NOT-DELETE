@@ -1,0 +1,20 @@
+# ============================================================
+#   SparkDuels  -  ffa.yml
+#   FFA arenas + which mode each is linked to.
+#   An FFA mode shows in /ffa only when:
+#     enabled = true, arena set, kit set, >= config min-spawns.
+#
+#   Example (delete or edit):
+#
+#   arenas:
+#     CrystalFFA:
+#       world: world
+#       enabled: true
+#       mode: Crystal
+#       kit: CrystalKit
+#       spawns:
+#         - { x: 100.5, y: 65.0, z: 100.5, yaw: 0.0, pitch: 0.0 }
+#         - { x: 110.5, y: 65.0, z: 100.5, yaw: 90.0, pitch: 0.0 }
+#         - { x: 100.5, y: 65.0, z: 110.5, yaw: 180.0, pitch: 0.0 }
+# ============================================================
+arenas: {}

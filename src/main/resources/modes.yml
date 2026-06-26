@@ -1,0 +1,104 @@
+# ============================================================
+#   SparkDuels  -  modes.yml
+#   Each mode links to a kit and shows in /duel & /queue.
+#   type: NORMAL | SUMO | SPLEEF  (special win rules)
+#   duel/ffa: whether the mode is offered in that gamemode.
+# ============================================================
+
+modes:
+  Mace:
+    display: "🔨 ᴍᴀᴄᴇ"
+    icon: MACE
+    kit: MaceKit
+    type: NORMAL
+    slot: 10
+    duel: true
+    ffa: true
+  Crystal:
+    display: "⚔ ᴄʀʏsᴛᴀʟ"
+    icon: END_CRYSTAL
+    kit: CrystalKit
+    type: NORMAL
+    slot: 11
+    duel: true
+    ffa: true
+  Cart:
+    display: "🛒 ᴄᴀʀᴛ"
+    icon: TNT_MINECART
+    kit: CartKit
+    type: NORMAL
+    slot: 12
+    duel: true
+    ffa: true
+  Bow:
+    display: "🏹 ʙᴏᴡ"
+    icon: BOW
+    kit: BowKit
+    type: NORMAL
+    slot: 13
+    duel: true
+    ffa: true
+  Axe:
+    display: "🪓 ᴀxᴇ"
+    icon: NETHERITE_AXE
+    kit: AxeKit
+    type: NORMAL
+    slot: 14
+    duel: true
+    ffa: true
+  DiaPot:
+    display: "💎 ᴅɪᴀ ᴘᴏᴛ"
+    icon: DIAMOND_CHESTPLATE
+    kit: DiaPotKit
+    type: NORMAL
+    slot: 15
+    duel: true
+    ffa: true
+  NethPot:
+    display: "🛡 ɴᴇᴛʜ ᴘᴏᴛ"
+    icon: NETHERITE_CHESTPLATE
+    kit: NethPotKit
+    type: NORMAL
+    slot: 16
+    duel: true
+    ffa: true
+  Pot:
+    display: "🧪 ᴘᴏᴛ"
+    icon: SPLASH_POTION
+    kit: PotKit
+    type: NORMAL
+    slot: 19
+    duel: true
+    ffa: true
+  UHC:
+    display: "🍎 ᴜʜᴄ"
+    icon: GOLDEN_APPLE
+    kit: UHCKit
+    type: NORMAL
+    slot: 20
+    duel: true
+    ffa: true
+  Sumo:
+    display: "🥊 sᴜᴍᴏ"
+    icon: LEATHER_BOOTS
+    kit: SumoKit
+    type: SUMO
+    slot: 21
+    duel: true
+    ffa: false
+  Spleef:
+    display: "❄ sᴘʟᴇᴇғ"
+    icon: DIAMOND_SHOVEL
+    kit: SpleefKit
+    type: SPLEEF
+    slot: 22
+    duel: true
+    ffa: false
+  Gapple:
+    display: "🍏 ɢᴀᴘᴘʟᴇ"
+    icon: ENCHANTED_GOLDEN_APPLE
+    kit: GappleKit
+    type: NORMAL
+    slot: 23
+    duel: true
+    ffa: true

@@ -1,0 +1,181 @@
+package studio.spark.duels;
+
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
+import studio.spark.duels.arena.ArenaManager;
+import studio.spark.duels.commands.Commands;
+import studio.spark.duels.duel.DuelManager;
+import studio.spark.duels.kit.KitManager;
+import studio.spark.duels.listeners.*;
+import studio.spark.duels.lobby.LobbyManager;
+import studio.spark.duels.match.MatchManager;
+import studio.spark.duels.model.ModeManager;
+import studio.spark.duels.party.PartyManager;
+import studio.spark.duels.queue.QueueManager;
+import studio.spark.duels.scoreboard.BoardManager;
+import studio.spark.duels.stats.StatsManager;
+import studio.spark.duels.util.ItemFactory;
+import studio.spark.duels.util.Msg;
+import studio.spark.duels.util.Placeholders;
+import studio.spark.duels.util.Sounds;
+
+import java.io.File;
+
+/**
+ * SparkDuels - premium duels/FFA/party/queue/kit/arena/scoreboard/stats plugin.
+ * Made by Spark Studios. Theme: green gradient.
+ */
+public class SparkDuels extends JavaPlugin {
+
+    private FileConfiguration messages, scoreboards, modesConfig, kitsConfig;
+
+    private Msg msg;
+    private Sounds sounds;
+    private Placeholders placeholders;
+    private ItemFactory items;
+
+    private ModeManager modes;
+    private KitManager kits;
+    private ArenaManager arenas;
+    private StatsManager stats;
+    private MatchManager matches;
+    private QueueManager queue;
+    private DuelManager duels;
+    private PartyManager parties;
+    private LobbyManager lobby;
+    private BoardManager boards;
+    private studio.spark.duels.ffa.FFAManager ffa;
+    private studio.spark.duels.arena.Duplicator dup;
+    private studio.spark.duels.kit.KitSerializer kitSerializer;
+    private studio.spark.duels.kit.KitEditor kitEditor;
+
+    private static final String[] COMMANDS = {
+            "duel", "queue", "stats", "ffa", "party", "kit", "modekit", "kiteditor",
+            "setlobby", "arena", "spos1", "spos2", "scorner1", "scorner2",
+            "spduplicate", "sparena", "ffarena", "sparkduels"
+    };
+
+    @Override
+    public void onEnable() {
+        saveDefaultConfig();
+        for (String f : new String[]{"messages.yml", "scoreboards.yml", "modes.yml", "kits.yml",
+                "party.yml", "ffa.yml", "arenas.yml", "stats.yml"}) {
+            saveResource(f, false);
+        }
+        loadConfigs();
+
+        // utilities first (kit loading needs msg + items)
+        msg = new Msg(this);
+        sounds = new Sounds(this);
+        placeholders = new Placeholders(this);
+        items = new ItemFactory(this);
+
+        // managers
+        modes = new ModeManager(this);
+        kits = new KitManager(this);
+        arenas = new ArenaManager(this);
+        stats = new StatsManager(this);
+        matches = new MatchManager(this);
+        queue = new QueueManager(this);
+        duels = new DuelManager(this);
+        parties = new PartyManager(this);
+        lobby = new LobbyManager(this);
+        boards = new BoardManager(this);
+        ffa = new studio.spark.duels.ffa.FFAManager(this);
+        dup = new studio.spark.duels.arena.Duplicator(this);
+        kitSerializer = new studio.spark.duels.kit.KitSerializer(this);
+        kitEditor = new studio.spark.duels.kit.KitEditor(this);
+
+        Commands commands = new Commands(this);
+        for (String c : COMMANDS) {
+            if (getCommand(c) != null) {
+                getCommand(c).setExecutor(commands);
+                getCommand(c).setTabCompleter(commands);
+            }
+        }
+
+        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+        getServer().getPluginManager().registerEvents(new ProtectionListener(this), this);
+        getServer().getPluginManager().registerEvents(new CombatListener(this), this);
+        getServer().getPluginManager().registerEvents(new MenuListener(this), this);
+
+        int sbTicks = Math.max(2, getConfig().getInt("settings.scoreboard-update-ticks", 10));
+        getServer().getScheduler().runTaskTimer(this, () -> boards.tick(), 40L, sbTicks);
+        getServer().getScheduler().runTaskTimer(this, () -> matches.tick(), 20L, 5L);
+        getServer().getScheduler().runTaskTimer(this, () -> ffa.tick(), 20L, 5L);
+
+        if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            new studio.spark.duels.papi.SparkExpansion(this).register();
+            getLogger().info("Hooked into PlaceholderAPI.");
+        }
+
+        getServer().getOnlinePlayers().forEach(p -> lobby.toLobby(p));
+        getLogger().info("SparkDuels enabled - made by Spark Studios. Theme: green gradient.");
+    }
+
+    @Override
+    public void onDisable() {
+        if (matches != null) matches.endAll();
+        if (stats != null) stats.save();
+        if (arenas != null) arenas.save();
+        if (ffa != null) ffa.save();
+    }
+
+    private void loadConfigs() {
+        messages = load("messages.yml");
+        scoreboards = load("scoreboards.yml");
+        modesConfig = load("modes.yml");
+        kitsConfig = load("kits.yml");
+    }
+
+    private FileConfiguration load(String name) {
+        return YamlConfiguration.loadConfiguration(new File(getDataFolder(), name));
+    }
+
+    public void saveModesConfig() {
+        try {
+            ((YamlConfiguration) modesConfig).save(new File(getDataFolder(), "modes.yml"));
+        } catch (Exception e) {
+            getLogger().warning("Could not save modes.yml: " + e.getMessage());
+        }
+    }
+
+    public void reloadAll() {
+        reloadConfig();
+        loadConfigs();
+        modes.load();
+        kits.load();
+        arenas.load();
+        stats.load();
+        if (ffa != null) ffa.load();
+    }
+
+    // config accessors
+    public FileConfiguration messages() { return messages; }
+    public FileConfiguration scoreboards() { return scoreboards; }
+    public FileConfiguration modesConfig() { return modesConfig; }
+    public FileConfiguration kitsConfig() { return kitsConfig; }
+
+    // util accessors
+    public Msg msg() { return msg; }
+    public Sounds sounds() { return sounds; }
+    public Placeholders placeholders() { return placeholders; }
+    public ItemFactory items() { return items; }
+
+    // manager accessors
+    public ModeManager modes() { return modes; }
+    public KitManager kits() { return kits; }
+    public ArenaManager arenas() { return arenas; }
+    public StatsManager stats() { return stats; }
+    public MatchManager matches() { return matches; }
+    public QueueManager queue() { return queue; }
+    public DuelManager duels() { return duels; }
+    public PartyManager parties() { return parties; }
+    public LobbyManager lobby() { return lobby; }
+    public BoardManager boards() { return boards; }
+    public studio.spark.duels.ffa.FFAManager ffa() { return ffa; }
+    public studio.spark.duels.arena.Duplicator dup() { return dup; }
+    public studio.spark.duels.kit.KitSerializer kitSerializer() { return kitSerializer; }
+    public studio.spark.duels.kit.KitEditor kitEditor() { return kitEditor; }
+}
