@@ -1,6 +1,0 @@
-# ============================================================
-#   SparkDuels  -  stats.yml
-#   Auto-managed. Per-player: wins, losses, kills, deaths,
-#   streak, best_streak, elo, coins (+ ffa_* counterparts).
-# ============================================================
-players: {}
